@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/note.controller.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/note.controller.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const noteService = require('../services/note.service');
+
+/**
+ * Contrôleur gérant les opérations CRUD sur les notes
+ */
+class NoteController {
+  /**
+   * Récupère la liste paginée des notes avec filtres optionnels
+   * @param {Request} req - Requête Express avec query params: page, limit, film, internaute
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async getAllNotes(req, res, next) {
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+
+      const filter = {};
+      if (req.query.film) filter.film = req.query.film; // Recherche par un film donnée
+      if (req.query.internaute) filter.internaute = req.query.internaute; // Recherche par un internaute spécifique
+
+      const result = await noteService.getAllNotes(page, limit, filter);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Récupère toutes les notes d'un internaute
+   * @param {Request} req - Requête Express avec params.id de l'internaute
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async getInternauteNotes(req, res, next) {
+    try {
+      const notes = await noteService.getInternauteNotes(req.params.id);
+      res.json({ notes });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Récupère toutes les notes d'un film
+   * @param {Request} req - Requête Express avec params.id du film
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async getFilmNotes(req, res, next) {
+    try {
+      const result = await noteService.getFilmNotes(req.params.id);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Crée une nouvelle note
+   * @param {Request} req - Requête Express avec body contenant film, note, commentaire et l'internaute authentifié
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async createNote(req, res, next) {
+    try {
+      const { film, note, commentaire } = req.body;
+      const nouvelleNote = await noteService.createNote(req.user._id, { film, note, commentaire });
+      
+      res.status(201).json({
+        message: 'Note créée avec succès',
+        note: nouvelleNote
+      });
+    } catch (error) {
+      if (error.message === 'Vous avez déjà noté ce film') {
+        return res.status(400).json({ error: error.message });
+      }
+      next(error);
+    }
+  }
+
+  /**
+   * Met à jour une note existante
+   * @param {Request} req - Requête Express avec params.id et body contenant les modifications
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async updateNote(req, res, next) {
+    try {
+      const noteModifiee = await noteService.updateNote(
+        req.params.id,
+        req.user._id,
+        req.body
+      );
+      
+      res.json({
+        message: 'Note mise à jour',
+        note: noteModifiee
+      });
+    } catch (error) {
+      if (error.message === 'Note non trouvée') {
+        return res.status(404).json({ error: error.message });
+      }
+      if (error.message === 'Accès refusé') {
+        return res.status(403).json({ error: error.message });
+      }
+      next(error);
+    }
+  }
+
+  /**
+   * Supprime une note
+   * @param {Request} req - Requête Express avec params.id
+   * @param {Response} res - Réponse Express
+   * @param {NextFunction} next - Fonction next d'Express
+   */
+  async deleteNote(req, res, next) {
+    try {
+      await noteService.deleteNote(req.params.id, req.user._id);
+      res.json({ message: 'Note supprimée' });
+    } catch (error) {
+      if (error.message === 'Note non trouvée') {
+        return res.status(404).json({ error: error.message });
+      }
+      if (error.message === 'Accès refusé') {
+        return res.status(403).json({ error: error.message });
+      }
+      next(error);
+    }
+  }
+}
+
+module.exports = new NoteController();</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ArtisteController.html">ArtisteController</a></li><li><a href="ArtisteService.html">ArtisteService</a></li><li><a href="AuthController.html">AuthController</a></li><li><a href="FilmController.html">FilmController</a></li><li><a href="FilmService.html">FilmService</a></li><li><a href="InternauteController.html">InternauteController</a></li><li><a href="InternauteService.html">InternauteService</a></li><li><a href="NoteController.html">NoteController</a></li><li><a href="NoteService.html">NoteService</a></li><li><a href="PaysController.html">PaysController</a></li><li><a href="PaysService.html">PaysService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Aug 02 2025 12:58:27 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
