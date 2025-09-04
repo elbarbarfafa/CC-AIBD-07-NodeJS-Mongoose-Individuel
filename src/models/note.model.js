@@ -28,3 +28,5 @@ const noteSchema = new mongoose.Schema({
 
 // Index unique pour éviter qu'un internaute note plusieurs fois le même film
 noteSchema.index({ internaute: 1, film: 1 }, { unique: true });
+
+module.exports = mongoose.model('Note', noteSchema);

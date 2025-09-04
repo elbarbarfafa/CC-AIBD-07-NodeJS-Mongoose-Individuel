@@ -51,6 +51,7 @@ class PaysController {
         pays
       });
     } catch (error) {
+      res.status(400).json({ error: 'Données invalides' });
       next(error);
     }
   }

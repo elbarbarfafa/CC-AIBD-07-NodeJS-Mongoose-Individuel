@@ -18,8 +18,8 @@ const noteRoutes = require('./routes/notes.routes');
 const apiDocRoutes = require('./routes/api.doc.routes');
 
 // Importation des middlewares
-const errorHandler = require('./middlewares/errorHandler');
-const { auth } = require('./middlewares/auth');
+const errorHandler = require('./middlewares/error.handler.middleware');
+const { auth } = require('./middlewares/auth.middleware');
 
 // Sécurité
 const cors = require('cors');
@@ -37,15 +37,15 @@ const app = express();
 // Middleware global
 app.use(helmet()) // Protection contre les attaques courantes
 app.use(cors(corsOptions)); // cors activé
-app.use(express.json()); // parseur JSON
 app.use(express.urlencoded({ extended: true })); // Parseur URL-encoded
 app.use(cookieParser()); // Parseur de cookies
-app.use(xss()); // Protection contre les attaques XSS
+app.use(express.json()); // parseur JSON
+//app.use(xss());
 
 // Connexion MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => logger.info('✅ Connecté à MongoDB'))
-  .catch(err => logger.error('❌ Erreur MongoDB:', err));
+  .then(() => logger.info('Connecté à MongoDB'))
+  .catch(err => logger.error('Erreur MongoDB:', err));
 
 // Routes avec sécurisation de l'accès
 app.use('/api/auth', authRoutes);
@@ -56,7 +56,7 @@ app.use('/api/pays', auth, paysRoutes);
 app.use('/api/notes', auth, noteRoutes);
 app.use('/api/docs', apiDocRoutes); // Swagger UI
 
-app.use('/api/**', csrfProtection);
+app.use('/api/*\w', csrfProtection);
 
 // Route pour obtenir le token CSRF
 app.get('/csrf-token', csrfProtection, (req, res) => {
@@ -83,11 +83,11 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 
 // Route 404
-app.use('*', (req, res) => {
+app.use(/(.*)/, (req, res) => {
   res.status(404).json({ error: 'Route non trouvée' });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  logger.log(`🚀 Serveur démarré sur le port ${PORT}`);
+  logger.info(`Serveur démarré sur le port ${PORT}`);
 });

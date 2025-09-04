@@ -17,7 +17,6 @@ class FilmService {
     
     const films = await Film.find(filters)
       .populate('realisateur', 'nom prenom anneeNaissance')
-      .populate('acteurs', 'nom prenom anneeNaissance')
       .populate('pays', 'nom code langue')
       .skip(skip)
       .limit(limit)
@@ -44,13 +43,6 @@ class FilmService {
   async getFilmById(id) {
     const film = await Film.findById(id)
       .populate('realisateur', 'nom prenom anneeNaissance')
-      .populate({
-        path: 'roles',
-        populate: {
-          path: 'artiste',
-          select: 'nom prenom anneeNaissance'
-        }
-      })
       .populate('pays', 'nom code langue');
 
     if (!film) return null;
@@ -68,7 +60,6 @@ class FilmService {
     await film.save();
     await film.populate([
       { path: 'realisateur', select: 'nom prenom anneeNaissance' },
-      { path: 'acteurs', select: 'nom prenom anneeNaissance' },
       { path: 'pays', select: 'nom code langue' }
     ]);
     return FilmDto.toDto(film);
@@ -87,7 +78,6 @@ class FilmService {
       { new: true, runValidators: true }
     ).populate([
       { path: 'realisateur', select: 'nom prenom anneeNaissance' },
-      { path: 'acteurs', select: 'nom prenom anneeNaissance' },
       { path: 'pays', select: 'nom code langue' }
     ]);
     return film ? FilmDto.toDto(film) : null;

@@ -23,4 +23,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = { auth, adminAuth };
+module.exports = { auth };
