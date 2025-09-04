@@ -1,1 +1,2 @@
 {"level":"info","message":"Serveur démarré sur le port 3000","service":"film-api","timestamp":"2025-09-04 21:43:38"}
+{"level":"info","message":"Connecté à MongoDB","service":"film-api","timestamp":"2025-09-04 21:43:38"}
