@@ -1,7 +1,7 @@
 const request = require("supertest");
 const express = require("express");
 const paysRoutes = require("../../src/routes/pays.routes");
-const Pays = require("../../src/models/pays.model");
+const Pays = require("../../../src/models/pays.model");
 
 const app = express();
 app.use(express.json());

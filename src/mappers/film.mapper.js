@@ -42,27 +42,6 @@ class FilmMapper {
         if (!films || !Array.isArray(films)) return [];
         return films.map(film => this.toDto(film));
     }
-
-    /**
-     * Extrait les données d'un DTO pour créer/mettre à jour une entité
-     * @param {FilmDto|Object} dto - Le DTO ou objet avec les données
-     * @returns {Object} Objet avec les propriétés pour l'entité
-     */
-    static toEntity(dto) {
-        if (!dto) return null;
-
-        const entity = {};
-        if (dto.titre !== undefined) entity.titre = dto.titre;
-        if (dto.genre !== undefined) entity.genre = dto.genre;
-        if (dto.annee !== undefined) entity.annee = dto.annee;
-        if (dto.duree !== undefined) entity.duree = dto.duree;
-        if (dto.synopsis !== undefined) entity.synopsis = dto.synopsis;
-        if (dto.langue !== undefined) entity.langue = dto.langue;
-        if (dto.paysId !== undefined) entity.pays = dto.paysId;
-        if (dto.realisateurId !== undefined) entity.realisateur = dto.realisateurId;
-        
-        return entity;
-    }
 }
 
 module.exports = FilmMapper;

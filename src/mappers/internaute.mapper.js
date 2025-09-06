@@ -41,8 +41,10 @@ class InternauteMapper {
         if (!dto) return null;
 
         const entity = {};
-        if (dto.pseudo !== undefined) entity.pseudo = dto.pseudo;
+        if (dto.nom !== undefined) entity.nom = dto.nom;
+        if (dto.prenom !== undefined) entity.prenom = dto.prenom;
         if (dto.email !== undefined) entity.email = dto.email;
+        if (dto.annee_naissance !== undefined) entity.anneeNaissance = dto.annee_naissance;
         if (dto.motDePasse !== undefined) entity.motDePasse = dto.motDePasse;
         
         return entity;

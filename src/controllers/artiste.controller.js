@@ -43,63 +43,7 @@ class ArtisteController {
       next(error);
     }
   }
-
-  /**
-   * Crée un nouvel artiste
-   * @param {Request} req - Requête Express avec body contenant les données de l'artiste
-   * @param {Response} res - Réponse Express
-   * @param {NextFunction} next - Fonction next d'Express
-   */
-  async createArtiste(req, res, next) {
-    try {
-      const artiste = await artisteService.createArtiste(req.body);
-      res.status(201).json({
-        message: 'Artiste créé avec succès',
-        artiste
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * Met à jour un artiste existant
-   * @param {Request} req - Requête Express avec params.id et body contenant les données à mettre à jour
-   * @param {Response} res - Réponse Express
-   * @param {NextFunction} next - Fonction next d'Express
-   */
-  async updateArtiste(req, res, next) {
-    try {
-      const artiste = await artisteService.updateArtiste(req.params.id, req.body);
-      if (!artiste) {
-        return res.status(404).json({ error: 'Artiste non trouvé' });
-      }
-      res.json({
-        message: 'Artiste mis à jour',
-        artiste
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * Supprime un artiste
-   * @param {Request} req - Requête Express avec params.id
-   * @param {Response} res - Réponse Express
-   * @param {NextFunction} next - Fonction next d'Express
-   */
-  async deleteArtiste(req, res, next) {
-    try {
-      const artiste = await artisteService.deleteArtiste(req.params.id);
-      if (!artiste) {
-        return res.status(404).json({ error: 'Artiste non trouvé' });
-      }
-      res.json({ message: 'Artiste supprimé' });
-    } catch (error) {
-      next(error);
-    }
-  }
+  
 }
 
 module.exports = new ArtisteController();

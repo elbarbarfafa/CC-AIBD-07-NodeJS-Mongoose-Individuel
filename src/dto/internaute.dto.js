@@ -1,11 +1,11 @@
 class InternauteDto {
-    constructor(id, email, nom, prenom, anneeNaissance, createdAt) {
+    constructor(id, email, nom, prenom, annee_naissance, created_at) {
         this.id = id;
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;
-        this.anneeNaissance = anneeNaissance;
-        this.createdAt = createdAt;
+        this.annee_naissance = annee_naissance;
+        this.created_at = created_at;
     }
 }
 

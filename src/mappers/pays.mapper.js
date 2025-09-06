@@ -29,22 +29,6 @@ class PaysMapper {
         if (!paysArray || !Array.isArray(paysArray)) return [];
         return paysArray.map(pays => this.toDto(pays));
     }
-
-    /**
-     * Extrait les données d'un DTO pour créer/mettre à jour une entité
-     * @param {PaysDto|Object} dto - Le DTO ou objet avec les données
-     * @returns {Object} Objet avec les propriétés pour l'entité
-     */
-    static toEntity(dto) {
-        if (!dto) return null;
-
-        const entity = {};
-        if (dto.nom !== undefined) entity.nom = dto.nom;
-        if (dto.code !== undefined) entity.code = dto.code;
-        if (dto.langue !== undefined) entity.langue = dto.langue;
-        
-        return entity;
-    }
 }
 
 module.exports = PaysMapper;

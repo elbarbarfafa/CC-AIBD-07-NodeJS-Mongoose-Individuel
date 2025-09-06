@@ -29,22 +29,6 @@ class ArtisteMapper {
         if (!artistes || !Array.isArray(artistes)) return [];
         return artistes.map(artiste => this.toDto(artiste));
     }
-
-    /**
-     * Extrait les données d'un DTO pour créer/mettre à jour une entité
-     * @param {ArtisteDto|Object} dto - Le DTO ou objet avec les données
-     * @returns {Object} Objet avec les propriétés pour l'entité
-     */
-    static toEntity(dto) {
-        if (!dto) return null;
-
-        const entity = {};
-        if (dto.nom !== undefined) entity.nom = dto.nom;
-        if (dto.prenom !== undefined) entity.prenom = dto.prenom;
-        if (dto.anneeNaissance !== undefined) entity.anneeNaissance = dto.anneeNaissance;
-        
-        return entity;
-    }
 }
 
 module.exports = ArtisteMapper;

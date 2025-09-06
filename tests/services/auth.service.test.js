@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 jest.mock('jsonwebtoken');
 
 describe('AuthService', () => {
+  
   describe('register', () => {
     beforeEach(() => {
       // Mock du token JWT

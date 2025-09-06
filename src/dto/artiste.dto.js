@@ -1,9 +1,14 @@
 class ArtisteDto {
-    constructor(id, nom, prenom, anneeNaissance) {
+    id;
+    nom;
+    prenom;
+    annee_naissance;
+
+    constructor(id, nom, prenom, annee_naissance) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.anneeNaissance = anneeNaissance;
+        this.annee_naissance = annee_naissance;
     }
 }
 

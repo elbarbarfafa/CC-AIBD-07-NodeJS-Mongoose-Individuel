@@ -50,24 +50,6 @@ router.get('/film/:id', noteController.getFilmNotes.bind(noteController));
 
 /**
  * @openapi
- * /api/notes/internaute/{id}:
- *   get:
- *     tags: [Notes]
- *     summary: Récupère les notes d'un internaute
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Notes de l'internaute
- */
-router.get('/internaute/:id', noteController.getInternauteNotes.bind(noteController));
-
-/**
- * @openapi
  * /api/notes:
  *   post:
  *     tags: [Notes]

@@ -27,21 +27,6 @@ class NoteController {
   }
 
   /**
-   * Récupère toutes les notes d'un internaute
-   * @param {Request} req - Requête Express avec params.id de l'internaute
-   * @param {Response} res - Réponse Express
-   * @param {NextFunction} next - Fonction next d'Express
-   */
-  async getInternauteNotes(req, res, next) {
-    try {
-      const notes = await noteService.getInternauteNotes(req.params.id);
-      res.json({ notes });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
    * Récupère toutes les notes d'un film
    * @param {Request} req - Requête Express avec params.id du film
    * @param {Response} res - Réponse Express

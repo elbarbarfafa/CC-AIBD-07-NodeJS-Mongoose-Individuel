@@ -71,40 +71,6 @@ class ArtisteService {
     };
   }
 
-  /**
-   * Crée un nouvel artiste
-   * @param {Object} artisteData - Données de l'artiste à créer
-   * @returns {Promise<ArtisteDto>} Artiste créé converti en DTO
-   */
-  async createArtiste(artisteData) {
-    const artiste = new Artiste(artisteData);
-    await artiste.save();
-    return ArtisteMapper.toDto(artiste);
-  }
-
-  /**
-   * Met à jour un artiste existant
-   * @param {string} id - Identifiant de l'artiste
-   * @param {Object} artisteData - Nouvelles données de l'artiste
-   * @returns {Promise<ArtisteDto|null>} Artiste mis à jour converti en DTO ou null si non trouvé
-   */
-  async updateArtiste(id, artisteData) {
-    const artiste = await Artiste.findByIdAndUpdate(
-      id,
-      artisteData,
-      { new: true, runValidators: true }
-    );
-    return artiste ? ArtisteMapper.toDto(artiste) : null;
-  }
-
-  /**
-   * Supprime un artiste
-   * @param {string} id - Identifiant de l'artiste à supprimer
-   * @returns {Promise<Object|null>} Artiste supprimé ou null si non trouvé
-   */
-  async deleteArtiste(id) {
-    return Artiste.findByIdAndDelete(id);
-  }
 }
 
 module.exports = new ArtisteService();
