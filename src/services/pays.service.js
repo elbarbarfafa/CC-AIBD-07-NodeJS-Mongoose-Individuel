@@ -1,7 +1,6 @@
 const Pays = require('../models/pays.model');
 const Film = require('../models/film.model');
-const PaysDto = require('../dto/pays.dto');
-const FilmDto = require('../dto/film.dto');
+const { PaysMapper, FilmMapper } = require('../mappers');
 
 /**
  * Service pour gérer les opérations liées aux pays
@@ -13,7 +12,7 @@ class PaysService {
    */
   async getAllPays() {
     const pays = await Pays.find({}).sort({ nom: 1 });
-    return pays.map(p => PaysDto.toDto(p));
+    return PaysMapper.toDtoList(pays);
   }
 
   /**
@@ -31,8 +30,8 @@ class PaysService {
       .sort({ annee: -1 });
 
     return {
-      pays: PaysDto.toDto(pays),
-      films: films.map(film => FilmDto.toDto(film))
+      pays: PaysMapper.toDto(pays),
+      films: FilmMapper.toDtoList(films)
     };
   }
 
@@ -44,7 +43,7 @@ class PaysService {
   async createPays(paysData) {
     const pays = new Pays(paysData);
     await pays.save();
-    return PaysDto.toDto(pays);
+    return PaysMapper.toDto(pays);
   }
 
   /**
@@ -59,7 +58,7 @@ class PaysService {
       paysData,
       { new: true, runValidators: true }
     );
-    return pays ? PaysDto.toDto(pays) : null;
+    return pays ? PaysMapper.toDto(pays) : null;
   }
 
   /**

@@ -1,5 +1,5 @@
 const Note = require("../models/note.model");
-const NoteDto = require("../dto/note.dto");
+const { NoteMapper } = require('../mappers');
 
 /**
  * Service pour gérer les opérations liées aux notes
@@ -25,7 +25,7 @@ class NoteService {
     const total = await Note.countDocuments(filters);
 
     return {
-      notes: notes.map((note) => NoteDto.toDto(note)),
+      notes: NoteMapper.toDtoList(notes),
       pagination: {
         page,
         limit,
@@ -44,7 +44,7 @@ class NoteService {
     const notes = await Note.find({ internaute: internauteId })
       .populate("film", "titre annee genre")
       .sort({ createdAt: -1 });
-    return notes.map((note) => NoteDto.toDto(note));
+    return NoteMapper.toDtoList(notes);
   }
 
   async getFilmNotes(filmId) {
@@ -61,7 +61,7 @@ class NoteService {
         : null;
 
     return {
-      notes: notes.map((note) => NoteDto.toDto(note)),
+      notes: NoteMapper.toDtoList(notes),
       moyenneNote,
       nombreNotes: notes.length,
     };
@@ -93,7 +93,7 @@ class NoteService {
       { path: "internaute", select: "nom prenom" },
       { path: "film", select: "titre annee" },
     ]);
-    return NoteDto.toDto(nouvelleNote);
+    return NoteMapper.toDto(nouvelleNote);
   }
 
   /**
@@ -122,7 +122,7 @@ class NoteService {
       { path: "internaute", select: "nom prenom" },
       { path: "film", select: "titre annee" },
     ]);
-    return NoteDto.toDto(updatedNote);
+    return NoteMapper.toDto(updatedNote);
   }
 
   /**

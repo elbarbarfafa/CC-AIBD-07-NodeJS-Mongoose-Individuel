@@ -1,5 +1,5 @@
 const Internaute = require('../models/internaute.model');
-const InternauteDto = require('../dto/internaute.dto');
+const { InternauteMapper } = require('../mappers');
 
 /**
  * Service pour gérer les opérations liées aux internautes
@@ -22,7 +22,7 @@ class InternauteService {
     const total = await Internaute.countDocuments();
 
     return {
-      internautes: internautes.map(internaute => InternauteDto.toDto(internaute)),
+      internautes: InternauteMapper.toDtoList(internautes),
       pagination: {
         page,
         limit,
@@ -39,7 +39,7 @@ class InternauteService {
    */
   async getInternauteById(id) {
     const internaute = await Internaute.findById(id);
-    return internaute ? InternauteDto.toDto(internaute) : null;
+    return internaute ? InternauteMapper.toDto(internaute) : null;
   }
 
   /**
@@ -54,7 +54,7 @@ class InternauteService {
       updateData,
       { new: true, runValidators: true }
     );
-    return internaute ? InternauteDto.toDto(internaute) : null;
+    return internaute ? InternauteMapper.toDto(internaute) : null;
   }
 
   /**
@@ -64,7 +64,7 @@ class InternauteService {
    */
   async deleteInternaute(id) {
     const internaute = await Internaute.findByIdAndDelete(id);
-    return internaute ? InternauteDto.toDto(internaute) : null;
+    return internaute ? InternauteMapper.toDto(internaute) : null;
   }
 }
 

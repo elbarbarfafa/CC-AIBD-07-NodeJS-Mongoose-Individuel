@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Internaute = require('../models/internaute.model');
-const InternauteDto = require('../dto/internaute.dto');
+const { InternauteMapper } = require('../mappers');
 
 class AuthService {
   /**
@@ -27,7 +27,7 @@ class AuthService {
 
     // gération du token JWT pour l'utilisateur
     const token = this.generateToken(internaute._id);
-    return { token, internaute: InternauteDto.toDto(internaute) };
+    return { token, internaute: InternauteMapper.toDto(internaute) };
   }
 
   /**
@@ -49,7 +49,7 @@ class AuthService {
     }
 
     const token = this.generateToken(internaute._id);
-    return { token, internaute: InternauteDto.toDto(internaute) };
+    return { token, internaute: InternauteMapper.toDto(internaute) };
   }
 
   /**
@@ -68,7 +68,7 @@ class AuthService {
    */
   async getProfile(userId) {
     const internaute = await Internaute.findById(userId);
-    return internaute ? InternauteDto.toDto(internaute) : null;
+    return internaute ? InternauteMapper.toDto(internaute) : null;
   }
 }
 

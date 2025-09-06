@@ -1,8 +1,7 @@
 const Artiste = require('../models/artiste.model');
 const Film = require('../models/film.model');
 const Role = require('../models/role.model');
-const ArtisteDto = require('../dto/artiste.dto');
-const FilmDto = require('../dto/film.dto');
+const { ArtisteMapper, FilmMapper } = require('../mappers');
 
 /**
  * Service pour gérer les opérations liées aux artistes
@@ -26,7 +25,7 @@ class ArtisteService {
     const total = await Artiste.countDocuments(filters);
 
     return {
-      artistes: artistes.map(artiste => ArtisteDto.toDto(artiste)),
+      artistes: ArtisteMapper.toDtoList(artistes),
       pagination: {
         page,
         limit,
@@ -60,13 +59,13 @@ class ArtisteService {
       });
 
     return {
-      artiste: ArtisteDto.toDto(artiste),
+      artiste: ArtisteMapper.toDto(artiste),
       filmographie: {
-        realisateur: filmsRealises.map(film => FilmDto.toDto(film)),
+        realisateur: FilmMapper.toDtoList(filmsRealises),
         roles: roles.map(role => ({
           id: role._id,
           libelle: role.libelle,
-          film: FilmDto.toDto(role.film)
+          film: FilmMapper.toDto(role.film)
         }))
       }
     };
@@ -80,7 +79,7 @@ class ArtisteService {
   async createArtiste(artisteData) {
     const artiste = new Artiste(artisteData);
     await artiste.save();
-    return ArtisteDto.toDto(artiste);
+    return ArtisteMapper.toDto(artiste);
   }
 
   /**
@@ -95,7 +94,7 @@ class ArtisteService {
       artisteData,
       { new: true, runValidators: true }
     );
-    return artiste ? ArtisteDto.toDto(artiste) : null;
+    return artiste ? ArtisteMapper.toDto(artiste) : null;
   }
 
   /**

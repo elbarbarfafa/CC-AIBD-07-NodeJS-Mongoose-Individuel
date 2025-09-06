@@ -1,5 +1,5 @@
 const Film = require('../models/film.model');
-const FilmDto = require('../dto/film.dto');
+const { FilmMapper } = require('../mappers');
 
 /**
  * Service pour gérer les opérations liées aux films
@@ -25,7 +25,7 @@ class FilmService {
     const total = await Film.countDocuments(filters);
 
     return {
-      films: films.map(film => FilmDto.toDto(film)),
+      films: FilmMapper.toDtoList(films),
       pagination: {
         page,
         limit,
@@ -47,7 +47,7 @@ class FilmService {
 
     if (!film) return null;
 
-    return FilmDto.toDto(film);
+    return FilmMapper.toDto(film);
   }
 
   /**
@@ -62,7 +62,7 @@ class FilmService {
       { path: 'realisateur', select: 'nom prenom anneeNaissance' },
       { path: 'pays', select: 'nom code langue' }
     ]);
-    return FilmDto.toDto(film);
+    return FilmMapper.toDto(film);
   }
 
   /**
@@ -80,7 +80,7 @@ class FilmService {
       { path: 'realisateur', select: 'nom prenom anneeNaissance' },
       { path: 'pays', select: 'nom code langue' }
     ]);
-    return film ? FilmDto.toDto(film) : null;
+    return film ? FilmMapper.toDto(film) : null;
   }
 
   /**

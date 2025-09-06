@@ -1,11 +1,9 @@
 class ArtisteDto {
-    static toDto(artiste) {
-        return {
-            id: artiste._id,
-            nom: artiste.nom,
-            prenom: artiste.prenom,
-            anneeNaissance: artiste.anneeNaissance
-        };
+    constructor(id, nom, prenom, anneeNaissance) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.anneeNaissance = anneeNaissance;
     }
 }
 
